@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://Phon1209:yb9Jw4pRTTrrviBZ@cluster0.ayiuc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-  "jwtPrivateKey": "whateverstringyouwanttopuithere"
-}
