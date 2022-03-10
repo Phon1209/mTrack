@@ -9,8 +9,13 @@ const Income = require("../models/Income");
 // @desc    get all income data
 // @access  Private
 router.get("/", auth, async (req, res) => {
+  const param = {};
+  if (req.query.before || req.query.after) param.date = {};
+  if (req.query.after) param.date["$gte"] = new Date(req.query.after);
+  if (req.query.before) param.date["$lt"] = new Date(req.query.before);
+
   try {
-    const incomes = await Income.find();
+    const incomes = await Income.find(param);
 
     res.json(incomes);
   } catch (err) {
