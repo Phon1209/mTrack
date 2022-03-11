@@ -42,4 +42,26 @@ router.post("/", auth, async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 });
+
+// @route   GET   api/tracker/income/:id
+// @desc    get one income entry
+// @access  Private
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const income = await Income.findById(req.params.id);
+
+    if (!income) {
+      return res.status(404).json({ error: "Entries not found" });
+    }
+
+    return res.json(income);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// @TODO: end point for pagination
+// @route   GET   api/tracker/income/page/:id
+// @desc    get n entries (default: 10) for page
+// @access  Private
 module.exports = router;
