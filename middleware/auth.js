@@ -7,7 +7,6 @@ module.exports = function (req, res, next) {
   if (!token) res.status(401).json({ error: "No token provided" });
   try {
     const payload = jwt.verify(token, config.get("jwtPrivateKey"));
-    console.log(payload);
     if (!payload.user.authorized) throw { message: "Unauthorized Access" };
 
     req.user = payload.user;
