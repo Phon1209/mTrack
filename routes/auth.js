@@ -10,11 +10,10 @@ const auth = require("../middleware/auth");
 const User = require("../models/User");
 
 // @route   GET  api/auth
-// @desc    load user's data (not to varify user credential)
+// @desc    load user's data (not to verify user credential)
 // @access  Private
 router.get("/", auth, async (req, res) => {
   try {
-    console.log(req.user);
     const user = await User.findById(req.user.id).select("-password");
     return res.json(user);
   } catch (err) {

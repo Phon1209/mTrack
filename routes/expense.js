@@ -1,67 +1,17 @@
 const express = require("express");
+const {
+  getExpense,
+  addExpense,
+  getExpenses,
+  getExpensePage,
+} = require("../controllers/expenseController");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
-// Expense Schema
-const Expense = require("../models/Expense");
+router.route("/").get(auth, getExpense).post(auth, addExpense);
 
-// @route   GET   api/tracker/expense
-// @desc    get all expense data
-// @access  Private
-router.get("/", auth, async (req, res) => {
-  const param = {};
-  if (req.query.before || req.query.after) param.date = {};
-  if (req.query.after) param.date["$gte"] = new Date(req.query.after);
-  if (req.query.before) param.date["$lt"] = new Date(req.query.before);
+router.get("/:id", auth, getExpense);
 
-  try {
-    const expense = await Expense.find(param);
+router.get("/page/:id", auth, getExpensePage);
 
-    res.json(expense);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-});
-
-// @route   POST   api/tracker/expense
-// @desc    add expense data
-// @access  Private
-router.post("/", auth, async (req, res) => {
-  try {
-    const { amount, desc, date } = req.body;
-
-    const expense = new Expense({
-      amount,
-      date,
-      desc,
-    });
-    await expense.save();
-
-    return res.json(expense);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-});
-
-// @route   GET   api/tracker/expense/:id
-// @desc    get one expense entry
-// @access  Private
-router.get("/:id", auth, async (req, res) => {
-  try {
-    const expense = await Expense.findById(req.params.id);
-
-    if (!expense) {
-      return res.status(404).json({ error: "Entries not found" });
-    }
-
-    return res.json(expense);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-});
-
-// @TODO: end point for pagination
-// @route   GET   api/tracker/expense/page/:id
-// @desc    get n entries (default: 10) for page
-// @access  Private
 module.exports = router;
