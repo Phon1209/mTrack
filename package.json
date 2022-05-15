@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "config": "^3.3.7",
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
@@ -16,7 +15,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js"
+    "server": "nodemon backend/server.js"
   },
   "keywords": [
     "income",
